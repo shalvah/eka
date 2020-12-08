@@ -1,0 +1,45 @@
+version: '2.2'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.0
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - elastic
+
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.10.0
+    container_name: apm-server
+    ports:
+      - 8200:8200
+    environment:
+      KIBANA_URL: http://kibana:5601
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    networks:
+      - elastic
+
+volumes:
+  data01:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
