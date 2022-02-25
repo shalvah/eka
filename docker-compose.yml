@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.0.1
     container_name: elasticsearch
     environment:
       - discovery.type=single-node
@@ -14,7 +14,7 @@ services:
       - elastic
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.0
+    image: docker.elastic.co/kibana/kibana:8.0.1
     container_name: kibana
     ports:
       - 5601:5601
@@ -25,7 +25,7 @@ services:
       - elastic
 
   apm-server:
-    image: docker.elastic.co/apm/apm-server:7.10.0
+    image: docker.elastic.co/apm/apm-server:8.0.1
     container_name: apm-server
     ports:
       - 8200:8200
